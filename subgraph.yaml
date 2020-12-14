@@ -8,7 +8,7 @@ dataSources:
     name: GraphTokenLockManager
     network: rinkeby
     source:
-      address: '0x9401a6AB882F9f2C4658889f38b8d9a25AfE364F'
+      address: "0x9401a6AB882F9f2C4658889f38b8d9a25AfE364F"
       abi: GraphTokenLockManager
       startBlock: 7680000
     mapping:
@@ -34,3 +34,32 @@ dataSources:
           handler: handleFunctionCallAuth
         - event: TokenDestinationAllowed(indexed address,bool)
           handler: handleTokenDestinationAllowed
+templates:
+  - kind: ethereum/contract
+    name: GraphTokenLockWallet
+    network: rinkeby
+    source:
+      abi: GraphTokenLockWallet
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.3
+      language: wasm/assemblyscript
+      file: ./src/mappings/tokenLockWallet.ts
+      entities:
+        - TokenLockWallet
+      abis:
+        - name: GraphTokenLockWallet
+          file: ./abis/GraphTokenLockWallet.json
+      eventHandlers:
+        - event: TokensReleased(indexed address,uint256)
+          handler: handleTokensReleased
+        - event: TokensWithdrawn(indexed address,uint256)
+          handler: handleTokensWithdrawn
+        - event: TokensRevoked(indexed address,uint256)
+          handler: handleTokensRevoked
+        - event: ManagerUpdated(indexed address,indexed address)
+          handler: handleManagerUpdated
+        - event: ApproveTokenDestinations()
+          handler: handleApproveTokenDestinations
+        - event: RevokeTokenDestinations()
+          handler: handleRevokeTokenDestinations

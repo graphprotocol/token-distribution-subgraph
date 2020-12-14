@@ -23,6 +23,7 @@ type AuthorizedFunction @entity {
 
 type TokenLockWallet @entity {
   id: ID!
+  manager: Bytes!
   initHash: Bytes!
   beneficiary: Bytes!
   token: Bytes!
@@ -33,6 +34,10 @@ type TokenLockWallet @entity {
   releaseStartTime: BigInt!
   vestingCliffTime: BigInt!
   revocable: Revocability
+  tokenDestinationsApproved: Boolean!
+  tokensReleased: BigInt!
+  tokensWithdrawn: BigInt!
+  tokensRevoked: BigInt!
 }
 
 enum Revocability {

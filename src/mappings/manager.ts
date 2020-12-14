@@ -8,17 +8,19 @@ import {
   TokenDestinationAllowed,
 } from "../types/GraphTokenLockManager/GraphTokenLockManager";
 
+import { GraphTokenLockWallet } from '../types/templates'
+
+
 import {
   TokenManager,
   TokenLockWallet,
   AuthorizedFunction,
 } from "../types/schema";
-let managerAddress = "0x9401a6AB882F9f2C4658889f38b8d9a25AfE364F";
 
 export function handleMasterCopyUpdated(event: MasterCopyUpdated): void {
-  let tokenLock = TokenManager.load(managerAddress);
+  let tokenLock = TokenManager.load(event.address.toHexString());
   if (tokenLock == null) {
-    tokenLock = new TokenManager(managerAddress);
+    tokenLock = new TokenManager(event.address.toHexString());
     tokenLock.tokens = BigInt.fromI32(0);
   }
   tokenLock.masterCopy = event.params.masterCopy;
@@ -42,6 +44,7 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   let tokenLock = new TokenLockWallet(
     event.params.contractAddress.toHexString()
   );
+  tokenLock.manager = event.address
   tokenLock.initHash = event.params.initHash;
   tokenLock.beneficiary = event.params.beneficiary;
   tokenLock.token = event.params.token;
@@ -51,6 +54,10 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   tokenLock.periods = event.params.periods;
   tokenLock.releaseStartTime = event.params.releaseStartTime;
   tokenLock.vestingCliffTime = event.params.vestingCliffTime;
+  tokenLock.tokenDestinationsApproved = false
+  tokenLock.tokensWithdrawn = BigInt.fromI32(0)
+  tokenLock.tokensRevoked = BigInt.fromI32(0)
+  tokenLock.tokensReleased = BigInt.fromI32(0)
   if (event.params.revocable == 0) {
     tokenLock.revocable = "NotSet";
   } else if (event.params.revocable == 1) {
@@ -59,16 +66,17 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
     tokenLock.revocable = "Disabled";
   }
   tokenLock.save();
+  GraphTokenLockWallet.create(event.params.contractAddress)
 }
 
 export function handleTokensDeposited(event: TokensDeposited): void {
-  let tokenLock = TokenManager.load(managerAddress);
+  let tokenLock = TokenManager.load(event.address.toHexString());
   tokenLock.tokens = tokenLock.tokens.plus(event.params.amount);
   tokenLock.save();
 }
 
 export function handleTokensWithdrawn(event: TokensWithdrawn): void {
-  let tokenLock = TokenManager.load(managerAddress);
+  let tokenLock = TokenManager.load(event.address.toHexString());
   tokenLock.tokens = tokenLock.tokens.minus(event.params.amount);
   tokenLock.save();
 }
@@ -77,14 +85,14 @@ export function handleFunctionCallAuth(event: FunctionCallAuth): void {
   let auth = new AuthorizedFunction(event.params.signature);
   auth.target = event.params.target;
   auth.sigHash = event.params.sigHash;
-  auth.manager = managerAddress;
+  auth.manager = event.address.toHexString();
   auth.save();
 }
 
 export function handleTokenDestinationAllowed(
   event: TokenDestinationAllowed
 ): void {
-  let tokenLock = TokenManager.load(managerAddress);
+  let tokenLock = TokenManager.load(event.address.toHexString());
   let destinations = tokenLock.tokenDestinations;
 
   if (destinations == null) {

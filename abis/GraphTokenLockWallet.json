@@ -1,6 +1,12 @@
 [
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "ApproveTokenDestinations",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": true,
@@ -35,6 +41,12 @@
       }
     ],
     "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "RevokeTokenDestinations",
     "type": "event"
   },
   {
