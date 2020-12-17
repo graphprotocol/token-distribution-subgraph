@@ -1,0 +1,47 @@
+"""
+The Token manager data
+"""
+type TokenManager @entity {
+  "Token manager address"
+  id: ID!
+  "Master copy address"
+  masterCopy: Bytes!
+  "Tokens stored in manger through deposit or withdraw"
+  tokens: BigInt!
+  "List of addresses that are allowed to pull funds"
+  tokenDestinations: [Bytes!]
+  "List of function call authorizations"
+  authorizedFunctions: [AuthorizedFunction!] @derivedFrom(field: "manager")
+}
+
+type AuthorizedFunction @entity {
+  id: ID!
+  target: Bytes!
+  sigHash: Bytes!
+  manager: TokenManager!
+}
+
+type TokenLockWallet @entity {
+  id: ID!
+  manager: Bytes!
+  initHash: Bytes!
+  beneficiary: Bytes!
+  token: Bytes!
+  managedAmount: BigInt!
+  startTime: BigInt!
+  endTime: BigInt!
+  periods: BigInt!
+  releaseStartTime: BigInt!
+  vestingCliffTime: BigInt!
+  revocable: Revocability
+  tokenDestinationsApproved: Boolean!
+  tokensReleased: BigInt!
+  tokensWithdrawn: BigInt!
+  tokensRevoked: BigInt!
+}
+
+enum Revocability {
+  NotSet
+  Enabled
+  Disabled
+}
