@@ -12,7 +12,10 @@ type TokenManager @entity {
   tokenDestinations: [Bytes!]
   "List of function call authorizations"
   authorizedFunctions: [AuthorizedFunction!] @derivedFrom(field: "manager")
+  "Token lock count of contracts created"
+  tokenLockCount: BigInt!
 }
+
 
 type AuthorizedFunction @entity {
   id: ID!
@@ -38,6 +41,8 @@ type TokenLockWallet @entity {
   tokensReleased: BigInt!
   tokensWithdrawn: BigInt!
   tokensRevoked: BigInt!
+  blockNumberCreated: BigInt!
+  txHash: Bytes!
 }
 
 enum Revocability {

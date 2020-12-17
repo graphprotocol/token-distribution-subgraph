@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
   MasterCopyUpdated,
   TokenLockCreated,
@@ -22,6 +22,7 @@ export function handleMasterCopyUpdated(event: MasterCopyUpdated): void {
   if (tokenLock == null) {
     tokenLock = new TokenManager(event.address.toHexString());
     tokenLock.tokens = BigInt.fromI32(0);
+    tokenLock.tokenLockCount = BigInt.fromI32(0);
   }
   tokenLock.masterCopy = event.params.masterCopy;
   tokenLock.save();
@@ -41,8 +42,14 @@ export function handleMasterCopyUpdated(event: MasterCopyUpdated): void {
  * @param _vestingCliffTime Time the cliff vests, 0 if no cliff
  */
 export function handleTokenLockCreated(event: TokenLockCreated): void {
+  let manager = TokenManager.load(event.address.toHexString())
+  manager.tokenLockCount = manager.tokenLockCount.plus(BigInt.fromI32(1))
+  manager.save()
+
+  let id = event.params.contractAddress.toHexString();
+  log.warning("[TOKEN LOCK CREATED] id used: {}", [id]);
   let tokenLock = new TokenLockWallet(
-    event.params.contractAddress.toHexString()
+    id
   );
   tokenLock.manager = event.address
   tokenLock.initHash = event.params.initHash;
@@ -58,6 +65,8 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   tokenLock.tokensWithdrawn = BigInt.fromI32(0)
   tokenLock.tokensRevoked = BigInt.fromI32(0)
   tokenLock.tokensReleased = BigInt.fromI32(0)
+  tokenLock.blockNumberCreated = event.block.number
+  tokenLock.txHash = event.transaction.hash
   if (event.params.revocable == 0) {
     tokenLock.revocable = "NotSet";
   } else if (event.params.revocable == 1) {
@@ -66,6 +75,7 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
     tokenLock.revocable = "Disabled";
   }
   tokenLock.save();
+  log.warning("[TOKEN LOCK CREATED] entity saved with id: {}", [id]);
   GraphTokenLockWallet.create(event.params.contractAddress)
 }
 
