@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts";
+import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
   TokensReleased,
   TokensWithdrawn,
@@ -35,7 +35,12 @@ export function handleTokensRevoked(event: TokensRevoked): void {
 }
 
 export function handleManagerUpdated(event: ManagerUpdated): void {
-  let tokenLockWallet = TokenLockWallet.load(event.address.toHexString());
+  let id = event.address.toHexString();
+  log.warning("address id: {}", [id]);
+  let tokenLockWallet = TokenLockWallet.load(id);
+  if (tokenLockWallet == null) {
+    log.warning("wallet doesn't exist", []);
+  }
   tokenLockWallet.manager = event.params._newManager;
   tokenLockWallet.save();
 }
