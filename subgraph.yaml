@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: GraphTokenLockManager
-    network: mainnet
+    network: rinkeby
     source:
-      address: "0xFCf78AC094288D7200cfdB367A8CD07108dFa128"
+      address: "0x7B0809048370E69aC0C0844E1188Ecd3aB3A0C5f"
       abi: GraphTokenLockManager
-      startBlock: 11460000
+      startBlock: 7960000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -37,7 +37,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: GraphTokenLockWallet
-    network: mainnet
+    network: rinkeby
     source:
       abi: GraphTokenLockWallet
     mapping:

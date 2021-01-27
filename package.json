@@ -9,8 +9,7 @@
     "scripts": {
       "codegen": "graph codegen --output-dir src/types/",
       "build": "graph build",
-      "deploy-test": "graph deploy davekaj/td --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
-      "deploy-rinkeby": "",
+      "deploy-testnet": "graph deploy davekaj/token-distribution-rinkeby --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
       "deploy-main": "graph deploy graphprotocol/token-distribution --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
       "lint": "yarn eslint .",
       "lint-fix": "eslint . --fix",
