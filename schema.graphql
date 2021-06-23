@@ -69,8 +69,6 @@ type TokenLockWallet @entity {
   blockNumberCreated: BigInt!
   "The creation tx hash of the wallet"
   txHash: Bytes!
-  "Set to whatever the beneficiaries default display name is"
-  defaultDisplayName: String
 }
 
 """
