@@ -8,8 +8,7 @@ import {
   TokenDestinationAllowed,
 } from "../types/GraphTokenLockManager/GraphTokenLockManager";
 
-import { GraphTokenLockWallet } from '../types/templates'
-
+import { GraphTokenLockWallet } from "../types/templates";
 
 import {
   TokenManager,
@@ -18,14 +17,15 @@ import {
 } from "../types/schema";
 
 export function handleMasterCopyUpdated(event: MasterCopyUpdated): void {
-  let tokenLock = TokenManager.load(event.address.toHexString());
-  if (tokenLock == null) {
-    tokenLock = new TokenManager(event.address.toHexString());
-    tokenLock.tokens = BigInt.fromI32(0);
-    tokenLock.tokenLockCount = BigInt.fromI32(0);
+  // Creates the manager
+  let manager = TokenManager.load(event.address.toHexString());
+  if (manager == null) {
+    manager = new TokenManager(event.address.toHexString());
+    manager.tokens = BigInt.fromI32(0);
+    manager.tokenLockCount = BigInt.fromI32(0);
   }
-  tokenLock.masterCopy = event.params.masterCopy;
-  tokenLock.save();
+  manager.masterCopy = event.params.masterCopy;
+  manager.save();
 }
 
 /**
@@ -42,16 +42,16 @@ export function handleMasterCopyUpdated(event: MasterCopyUpdated): void {
  * @param _vestingCliffTime Time the cliff vests, 0 if no cliff
  */
 export function handleTokenLockCreated(event: TokenLockCreated): void {
-  let manager = TokenManager.load(event.address.toHexString())
-  manager.tokenLockCount = manager.tokenLockCount.plus(BigInt.fromI32(1))
-  manager.save()
+  // Get manager
+  let manager = TokenManager.load(event.address.toHexString())!;
+  manager.tokenLockCount = manager.tokenLockCount.plus(BigInt.fromI32(1));
+  manager.save();
 
+  // New token lock wallet
   let id = event.params.contractAddress.toHexString();
   log.warning("[TOKEN LOCK CREATED] id used: {}", [id]);
-  let tokenLock = new TokenLockWallet(
-    id
-  );
-  tokenLock.manager = event.address
+  let tokenLock = new TokenLockWallet(id);
+  tokenLock.manager = event.address;
   tokenLock.initHash = event.params.initHash;
   tokenLock.beneficiary = event.params.beneficiary;
   tokenLock.token = event.params.token;
@@ -61,12 +61,12 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   tokenLock.periods = event.params.periods;
   tokenLock.releaseStartTime = event.params.releaseStartTime;
   tokenLock.vestingCliffTime = event.params.vestingCliffTime;
-  tokenLock.tokenDestinationsApproved = false
-  tokenLock.tokensWithdrawn = BigInt.fromI32(0)
-  tokenLock.tokensRevoked = BigInt.fromI32(0)
-  tokenLock.tokensReleased = BigInt.fromI32(0)
-  tokenLock.blockNumberCreated = event.block.number
-  tokenLock.txHash = event.transaction.hash
+  tokenLock.tokenDestinationsApproved = false;
+  tokenLock.tokensWithdrawn = BigInt.fromI32(0);
+  tokenLock.tokensRevoked = BigInt.fromI32(0);
+  tokenLock.tokensReleased = BigInt.fromI32(0);
+  tokenLock.blockNumberCreated = event.block.number;
+  tokenLock.txHash = event.transaction.hash;
   if (event.params.revocable == 0) {
     tokenLock.revocable = "NotSet";
   } else if (event.params.revocable == 1) {
@@ -76,19 +76,21 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   }
   tokenLock.save();
   log.warning("[TOKEN LOCK CREATED] entity saved with id: {}", [id]);
-  GraphTokenLockWallet.create(event.params.contractAddress)
+  GraphTokenLockWallet.create(event.params.contractAddress);
 }
 
 export function handleTokensDeposited(event: TokensDeposited): void {
-  let tokenLock = TokenManager.load(event.address.toHexString());
-  tokenLock.tokens = tokenLock.tokens.plus(event.params.amount);
-  tokenLock.save();
+  // Get manager
+  let manager = TokenManager.load(event.address.toHexString())!;
+  manager.tokens = manager.tokens.plus(event.params.amount);
+  manager.save();
 }
 
 export function handleTokensWithdrawn(event: TokensWithdrawn): void {
-  let tokenLock = TokenManager.load(event.address.toHexString());
-  tokenLock.tokens = tokenLock.tokens.minus(event.params.amount);
-  tokenLock.save();
+  // Get manager
+  let manager = TokenManager.load(event.address.toHexString())!;
+  manager.tokens = manager.tokens.minus(event.params.amount);
+  manager.save();
 }
 
 export function handleFunctionCallAuth(event: FunctionCallAuth): void {
@@ -102,9 +104,11 @@ export function handleFunctionCallAuth(event: FunctionCallAuth): void {
 export function handleTokenDestinationAllowed(
   event: TokenDestinationAllowed
 ): void {
-  let tokenLock = TokenManager.load(event.address.toHexString());
-  let destinations = tokenLock.tokenDestinations;
+  // Get manager
+  let manager = TokenManager.load(event.address.toHexString())!;
 
+  // Update destinations
+  let destinations = manager.tokenDestinations;
   if (destinations == null) {
     destinations = [];
   }
@@ -125,6 +129,6 @@ export function handleTokenDestinationAllowed(
     }
     // Otherwise do nothing
   }
-  tokenLock.tokenDestinations = destinations;
-  tokenLock.save();
+  manager.tokenDestinations = destinations;
+  manager.save();
 }
