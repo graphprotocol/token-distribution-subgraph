@@ -95,7 +95,7 @@ dataSources:
         - event: TokenDestinationAllowed(indexed address,bool)
           handler: handleTokenDestinationAllowed
   - kind: ethereum/contract
-    name: GraphTokenLockManager3
+    name: GraphTokenLockManager4
     network: mainnet
     source:
       address: "0x455466E99033D1D33D6fA6EcA40F182e0A551847"
