@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: The Graph Token Distribution
 repository: https://github.com/graphprotocol/token-distribution
 schema:
