@@ -1,4 +1,4 @@
-import { BigInt, log } from "@graphprotocol/graph-ts";
+import { BigInt, log, store } from "@graphprotocol/graph-ts";
 import {
   MasterCopyUpdated,
   TokenLockCreated,
@@ -94,7 +94,21 @@ export function handleTokensWithdrawn(event: TokensWithdrawn): void {
 }
 
 export function handleFunctionCallAuth(event: FunctionCallAuth): void {
-  let auth = new AuthorizedFunction(event.params.signature);
+  // Calculate primary key
+  let fid = event.params.signature
+    .concat("-")
+    .concat(event.address.toHexString());
+
+  // Delete the entity if auth revoked
+  if (
+    event.params.target.toHex() == "0x0000000000000000000000000000000000000000"
+  ) {
+    store.remove("AuthorizedFunction", fid);
+  }
+
+  // Save authorized function
+  let auth = new AuthorizedFunction(fid);
+  auth.sig = event.params.signature;
   auth.target = event.params.target;
   auth.sigHash = event.params.sigHash;
   auth.manager = event.address.toHexString();

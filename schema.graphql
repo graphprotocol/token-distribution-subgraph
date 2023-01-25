@@ -20,8 +20,10 @@ type TokenManager @entity {
 Authorized functions for the Manager
 """
 type AuthorizedFunction @entity {
-  "Function signature (string)"
+  "Primary key = function signature + manager address"
   id: ID!
+  "Function signature (string)"
+  sig: String!
   "The contract address that is authorized to have this function called on itself"
   target: Bytes!
   "Hash of the function signature"
