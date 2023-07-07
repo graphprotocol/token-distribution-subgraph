@@ -184,6 +184,26 @@ dataSources:
           handler: handleFunctionCallAuth
         - event: TokenDestinationAllowed(indexed address,bool)
           handler: handleTokenDestinationAllowed
+  - kind: ethereum/contract
+    name: L1Staking
+    network: mainnet
+    source:
+      address: "0xfe69D738344050F3b4351428Ddc18577d1e4D21A"
+      abi: L1Staking
+      startBlock: 16477321
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/transferTool.ts
+      entities:
+        - TODO
+      abis:
+        - name: L1Staking
+          file: ./abis/L1Staking.json
+      eventHandlers:
+        - event: L1GraphTokenLockTransferToolSet(address)
+          handler: handleL1GraphTokenLockTransferToolSet
 templates:
   - kind: ethereum/contract
     name: GraphTokenLockWallet
@@ -213,3 +233,49 @@ templates:
           handler: handleApproveTokenDestinations
         - event: RevokeTokenDestinations()
           handler: handleRevokeTokenDestinations
+  - kind: ethereum/contract
+    name: L1GraphTokenLockTransferTool
+    network: mainnet
+    source:
+      abi: L1GraphTokenLockTransferTool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/transferTool.ts
+      entities:
+        - TODO
+      abis:
+        - name: L1GraphTokenLockTransferTool
+          file: ./abis/L1GraphTokenLockTransferTool.json
+      eventHandlers:
+        - event: L2WalletOwnerSet(indexed address,indexed address)
+          handler: handleL2WalletOwnerSet
+        - event: LockedFundsSentToL2(indexed address,indexed address,indexed address,address,uint256)
+          handler: handleLockedFundsSentToL2
+        - event: L2WalletAddressSet(indexed address,indexed address)
+          handler: handleL2WalletAddressSet
+        - event: ETHDeposited(indexed address,uint256)
+          handler: handleETHDeposited
+        - event: ETHWithdrawn(indexed address,indexed address,uint256)
+          handler: handleETHWithdrawn
+        - event: ETHPulled(indexed address,uint256)
+          handler: handleETHPulled
+              # /// @dev Emitted when the L2 wallet owner for an L1 wallet owner is set
+              # event L2WalletOwnerSet(address indexed l1WalletOwner, address indexed l2WalletOwner);
+              # /// @dev Emitted when GRT is sent to L2 from a token lock
+              # event LockedFundsSentToL2(
+              #     address indexed l1Wallet,
+              #     address indexed l2Wallet,
+              #     address indexed l1LockManager,
+              #     address l2LockManager,
+              #     uint256 amount
+              # );
+              # /// @dev Emitted when an L2 wallet address is set for an L1 wallet
+              # event L2WalletAddressSet(address indexed l1Wallet, address indexed l2Wallet);
+              # /// @dev Emitted when ETH is deposited to a token lock's account
+              # event ETHDeposited(address indexed tokenLock, uint256 amount);
+              # /// @dev Emitted when ETH is withdrawn from a token lock's account
+              # event ETHWithdrawn(address indexed tokenLock, address indexed destination, uint256 amount);
+              # /// @dev Emitted when ETH is pulled from a token lock's account by Staking or this tool to pay for an L2 ticket
+              # event ETHPulled(address indexed tokenLock, uint256 amount);
