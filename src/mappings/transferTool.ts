@@ -18,7 +18,7 @@ import {
   ETHDeposited,
   ETHWithdrawn,
   ETHPulled
-} from "../types/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
+} from "../types/templates/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
 import {
   L1GraphTokenLockTransferToolSet
 } from "../types/L1Staking/L1Staking";
