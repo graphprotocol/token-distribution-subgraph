@@ -90,9 +90,7 @@ type TokenLockWallet @entity {
   "Transaction hash for the L1 -> L2 Transfer."
   lastTransferredToL2AtTx: String
   "Wallet address set for L2 transfer"
-  l2WalletAddress: Bytes!
-  "Beneficiary set for L2 transfer"
-  l2Beneficiary: Bytes!
+  l2WalletAddress: Bytes
 }
 
 """

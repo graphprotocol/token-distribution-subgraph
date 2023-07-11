@@ -12,27 +12,21 @@
 // handler: handleETHPulled
 import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
-  L2WalletOwnerSet,
   LockedFundsSentToL2,
   L2WalletAddressSet,
   ETHDeposited,
   ETHWithdrawn,
   ETHPulled
-} from "../types/templates/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
-import {
-  L1GraphTokenLockTransferToolSet
-} from "../types/L1Staking/L1Staking";
-import {
-  L1GraphTokenLockTransferTool
-} from "../types/templates";
+//} from "../types/templates/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
+} from "../types/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
+// import {
+//   L1GraphTokenLockTransferToolSet
+// } from "../types/L1Staking/L1Staking";
+// import {
+//   L1GraphTokenLockTransferTool
+// } from "../types/templates";
 
 import { TokenLockWallet } from "../types/schema";
-
-export function handleL2WalletOwnerSet(event: L2WalletOwnerSet): void {
-  let tokenLockWallet = TokenLockWallet.load(event.params.l1WalletOwner.toHexString())!;
-  tokenLockWallet.l2Beneficiary = event.params.l2WalletOwner;
-  tokenLockWallet.save();
-}
 
 export function handleLockedFundsSentToL2(event: LockedFundsSentToL2): void {
   let tokenLockWallet = TokenLockWallet.load(event.params.l1Wallet.toHexString())!;
@@ -82,7 +76,7 @@ export function handleETHPulled(event: ETHPulled): void {
   tokenLockWallet.save();
 }
 
-export function handleL1GraphTokenLockTransferToolSet(event: L1GraphTokenLockTransferToolSet): void {
-  L1GraphTokenLockTransferTool.create(event.params.l1GraphTokenLockTransferTool)
-}
+// export function handleL1GraphTokenLockTransferToolSet(event: L1GraphTokenLockTransferToolSet): void {
+//   L1GraphTokenLockTransferTool.create(event.params.l1GraphTokenLockTransferTool)
+// }
 
