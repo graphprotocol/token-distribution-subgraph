@@ -91,6 +91,10 @@ type TokenLockWallet @entity {
   lastTransferredToL2AtTx: String
   "Wallet address set for L2 transfer"
   l2WalletAddress: Bytes
+  "Beneficiary set for L2 transfer. Only for locked tokens codepath, fully vested won't be setting this"
+  l2Beneficiary: Bytes
+  "Whether the wallet is fully vested or not. Fully vested wallets will have an l2WalletAddress set that is not a TokenLockWallet, but rather a normal EOA, since they can withdraw the funds whenever they please"
+  l2WalletIsTokenLock: Boolean
 }
 
 """

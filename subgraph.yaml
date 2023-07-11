@@ -346,6 +346,8 @@ dataSources:
           handler: handleLockedFundsSentToL2
         - event: L2WalletAddressSet(indexed address,indexed address)
           handler: handleL2WalletAddressSet
+        - event: L2BeneficiarySet(indexed address,indexed address)
+          handler: handleL2BeneficiarySet
         - event: ETHDeposited(indexed address,uint256)
           handler: handleETHDeposited
         - event: ETHWithdrawn(indexed address,indexed address,uint256)

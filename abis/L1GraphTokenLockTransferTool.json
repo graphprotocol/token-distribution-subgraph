@@ -132,6 +132,25 @@
         {
           "indexed": true,
           "internalType": "address",
+          "name": "l1Wallet",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "l2Beneficiary",
+          "type": "address"
+        }
+      ],
+      "name": "L2BeneficiarySet",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
           "name": "l1WalletOwner",
           "type": "address"
         },

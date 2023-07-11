@@ -1,5 +1,3 @@
-// - event: L2WalletOwnerSet(indexed address,indexed address)
-// handler: handleL2WalletOwnerSet
 // - event: LockedFundsSentToL2(indexed address,indexed address,indexed address,address,uint256)
 // handler: handleLockedFundsSentToL2
 // - event: L2WalletAddressSet(indexed address,indexed address)
@@ -10,8 +8,11 @@
 // handler: handleETHWithdrawn
 // - event: ETHPulled(indexed address,uint256)
 // handler: handleETHPulled
+// - event: L2BeneficiarySet(address indexed,address indexed)
+// handler: handleL2BeneficiarySet
 import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
+  L2BeneficiarySet,
   LockedFundsSentToL2,
   L2WalletAddressSet,
   ETHDeposited,
@@ -32,6 +33,7 @@ export function handleLockedFundsSentToL2(event: LockedFundsSentToL2): void {
   let tokenLockWallet = TokenLockWallet.load(event.params.l1Wallet.toHexString())!;
 
   if(!tokenLockWallet.transferredToL2) {
+    tokenLockWallet.l2WalletIsTokenLock = true
     tokenLockWallet.transferredToL2 = true
     tokenLockWallet.firstTransferredToL2At = event.block.timestamp
     tokenLockWallet.firstTransferredToL2AtBlockNumber = event.block.number
@@ -49,6 +51,13 @@ export function handleLockedFundsSentToL2(event: LockedFundsSentToL2): void {
 export function handleL2WalletAddressSet(event: L2WalletAddressSet): void {
   let tokenLockWallet = TokenLockWallet.load(event.params.l1Wallet.toHexString())!;
   tokenLockWallet.l2WalletAddress = event.params.l2Wallet;
+  tokenLockWallet.l2WalletIsTokenLock = tokenLockWallet.l2WalletIsTokenLock || false; // at this point we can't differentiate them, but at least we know it either has to be 
+  tokenLockWallet.save();
+}
+
+export function handleL2BeneficiarySet(event: L2BeneficiarySet): void {
+  let tokenLockWallet = TokenLockWallet.load(event.params.l1Wallet.toHexString())!;
+  tokenLockWallet.l2Beneficiary = event.params.l2Beneficiary;
   tokenLockWallet.save();
 }
 
