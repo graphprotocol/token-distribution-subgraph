@@ -8,39 +8,9 @@ dataSources:
     name: GraphTokenLockManager
     network: goerli
     source:
-      address: "0x97D3008043eC5f877bfee9A7e55437A43F846046"
+      address: "0xF3b617e0c966329363e78c266361794e84223313"
       abi: GraphTokenLockManager
-      startBlock: 9092520
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      file: ./src/mappings/manager.ts
-      entities:
-        - TODO
-      abis:
-        - name: GraphTokenLockManager
-          file: ./abis/GraphTokenLockManager.json
-      eventHandlers:
-        - event: MasterCopyUpdated(indexed address)
-          handler: handleMasterCopyUpdated
-        - event: TokenLockCreated(indexed address,indexed bytes32,indexed address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8)
-          handler: handleTokenLockCreated
-        - event: TokensDeposited(indexed address,uint256)
-          handler: handleTokensDeposited
-        - event: TokensWithdrawn(indexed address,uint256)
-          handler: handleTokensWithdrawn
-        - event: FunctionCallAuth(indexed address,indexed bytes4,indexed address,string)
-          handler: handleFunctionCallAuth
-        - event: TokenDestinationAllowed(indexed address,bool)
-          handler: handleTokenDestinationAllowed
-  - kind: ethereum/contract
-    name: GraphTokenLockManager2
-    network: goerli
-    source:
-      address: "0x17A2fAbF010c0fb096f21ea7fc846fe77D1e14b2"
-      abi: GraphTokenLockManager
-      startBlock: 9092673
+      startBlock: 9345443
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -328,9 +298,9 @@ dataSources:
     name: L1Staking
     network: mainnet
     source:
-      address: "0x739a6bc599347ada0cec67520559f46ea8b9155e"
+      address: "0xa725CF32c367778CFF2ba7089Ab4e941BDD88612"
       abi: L1GraphTokenLockTransferTool
-      startBlock: 9204332
+      startBlock: 9345746
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -383,6 +353,10 @@ templates:
           handler: handleApproveTokenDestinations
         - event: RevokeTokenDestinations()
           handler: handleRevokeTokenDestinations
+        - event: TokenDestinationsApproved()
+          handler: handleTokenDestinationsApproved
+        - event: TokenDestinationsRevoked()
+          handler: handleTokenDestinationsRevoked
   # - kind: ethereum/contract
   #   name: L1GraphTokenLockTransferTool
   #   network: goerli

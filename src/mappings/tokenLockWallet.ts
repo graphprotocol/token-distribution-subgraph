@@ -6,6 +6,8 @@ import {
   ManagerUpdated,
   ApproveTokenDestinations,
   RevokeTokenDestinations,
+  TokenDestinationsApproved,
+  TokenDestinationsRevoked,
 } from "../types/templates/GraphTokenLockWallet/GraphTokenLockWallet";
 
 import { TokenLockWallet } from "../types/schema";
@@ -50,6 +52,22 @@ export function handleApproveTokenDestinations(
 
 export function handleRevokeTokenDestinations(
   event: RevokeTokenDestinations
+): void {
+  let tokenLockWallet = TokenLockWallet.load(event.address.toHexString())!;
+  tokenLockWallet.tokenDestinationsApproved = false;
+  tokenLockWallet.save();
+}
+
+export function handleTokenDestinationsApproved(
+  event: TokenDestinationsApproved
+): void {
+  let tokenLockWallet = TokenLockWallet.load(event.address.toHexString())!;
+  tokenLockWallet.tokenDestinationsApproved = true;
+  tokenLockWallet.save();
+}
+
+export function handleTokenDestinationsRevoked(
+  event: TokenDestinationsRevoked
 ): void {
   let tokenLockWallet = TokenLockWallet.load(event.address.toHexString())!;
   tokenLockWallet.tokenDestinationsApproved = false;

@@ -7,6 +7,12 @@
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "TokenDestinationsApproved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": true,
@@ -47,6 +53,12 @@
     "anonymous": false,
     "inputs": [],
     "name": "RevokeTokenDestinations",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [],
+    "name": "TokenDestinationsRevoked",
     "type": "event"
   },
   {
