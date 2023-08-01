@@ -1,16 +1,3 @@
-// - event: LockedFundsSentToL2(indexed address,indexed address,indexed address,address,uint256)
-// handler: handleLockedFundsSentToL2
-// - event: L2WalletAddressSet(indexed address,indexed address)
-// handler: handleL2WalletAddressSet
-// - event: ETHDeposited(indexed address,uint256)
-// handler: handleETHDeposited
-// - event: ETHWithdrawn(indexed address,indexed address,uint256)
-// handler: handleETHWithdrawn
-// - event: ETHPulled(indexed address,uint256)
-// handler: handleETHPulled
-// - event: L2BeneficiarySet(address indexed,address indexed)
-// handler: handleL2BeneficiarySet
-import { BigInt, log } from "@graphprotocol/graph-ts";
 import {
   L2BeneficiarySet,
   LockedFundsSentToL2,
@@ -18,14 +5,7 @@ import {
   ETHDeposited,
   ETHWithdrawn,
   ETHPulled
-//} from "../types/templates/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
 } from "../types/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
-// import {
-//   L1GraphTokenLockTransferToolSet
-// } from "../types/L1Staking/L1Staking";
-// import {
-//   L1GraphTokenLockTransferTool
-// } from "../types/templates";
 
 import { TokenLockWallet } from "../types/schema";
 
@@ -84,8 +64,3 @@ export function handleETHPulled(event: ETHPulled): void {
   );
   tokenLockWallet.save();
 }
-
-// export function handleL1GraphTokenLockTransferToolSet(event: L1GraphTokenLockTransferToolSet): void {
-//   L1GraphTokenLockTransferTool.create(event.params.l1GraphTokenLockTransferTool)
-// }
-

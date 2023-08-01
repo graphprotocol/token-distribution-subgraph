@@ -43,8 +43,8 @@ type TokenLockWallet @entity {
   initHash: Bytes!
   "Address of the beneficiary of locked tokens"
   beneficiary: Bytes!
-  "The token being used (GRT)"
-  token: Bytes!
+  "The token being used (GRT). For L2 wallets created for L1 it will be null"
+  token: Bytes
   "Amount of tokens to be managed by the lock contract"
   managedAmount: BigInt!
   "Start time of the release schedule"
