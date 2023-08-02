@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: L2GraphTokenLockManager
-    network: goerli
+    network: arbitrum-goerli
     source:
       address: "0xF3b617e0c966329363e78c266361794e84223313"
       abi: L2GraphTokenLockManager
@@ -69,7 +69,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: GraphTokenLockWallet
-    network: goerli
+    network: arbitrum-goerli
     source:
       abi: GraphTokenLockWallet
     mapping:

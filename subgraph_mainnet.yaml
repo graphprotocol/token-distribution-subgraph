@@ -186,7 +186,7 @@ dataSources:
           handler: handleTokenDestinationAllowed
   - kind: ethereum/contract
     name: L1GraphTokenLockTransferTool
-    network: goerli
+    network: mainnet
     source:
       address: "0xCa82c7Ce3388b0B5d307574099aC57d7a00d509F"
       abi: L1GraphTokenLockTransferTool

@@ -6,7 +6,7 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: L2GraphTokenLockManagerFoundationV1
-    network: goerli
+    network: arbitrum
     source:
       address: "0x4f74c728CEe713191E500e68a8C8cC32bff9d911"
       abi: L2GraphTokenLockManager
@@ -38,7 +38,7 @@ dataSources:
           handler: handleTokenLockCreatedFromL1
   - kind: ethereum/contract
     name: L2GraphTokenLockManagerMIPs
-    network: goerli
+    network: arbitrum
     source:
       address: "0xf2F89D0bB013c9c292B8E398903e421a1028bDA5"
       abi: L2GraphTokenLockManager
@@ -70,7 +70,7 @@ dataSources:
           handler: handleTokenLockCreatedFromL1
   - kind: ethereum/contract
     name: L2GraphTokenLockManagerMIPs
-    network: goerli
+    network: arbitrum
     source:
       address: "0xF1ef3f2007E63cAA4F3B8e22D73B31CCF434500D"
       abi: L2GraphTokenLockManager
@@ -102,7 +102,7 @@ dataSources:
           handler: handleTokenLockCreatedFromL1
   # - kind: ethereum/contract
   #   name: L1GraphTokenLockTransferTool
-  #   network: goerli
+  #   network: arbitrum
   #   source:
   #     address: "0xa725CF32c367778CFF2ba7089Ab4e941BDD88612"
   #     abi: L1GraphTokenLockTransferTool
@@ -133,7 +133,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: GraphTokenLockWallet
-    network: goerli
+    network: arbitrum
     source:
       abi: GraphTokenLockWallet
     mapping:
