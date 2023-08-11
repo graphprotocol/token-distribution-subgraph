@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: L2GraphTokenLockManager
+    name: GraphTokenLockManager
     network: arbitrum-goerli
     source:
       address: "0xF3b617e0c966329363e78c266361794e84223313"
-      abi: L2GraphTokenLockManager
+      abi: GraphTokenLockManager
       startBlock: 30437370
     mapping:
       kind: ethereum/events
@@ -19,8 +19,8 @@ dataSources:
       entities:
         - TODO
       abis:
-        - name: L2GraphTokenLockManager
-          file: ./abis/L2GraphTokenLockManager.json
+        - name: GraphTokenLockManager
+          file: ./abis/GraphTokenLockManager.json
       eventHandlers:
         - event: MasterCopyUpdated(indexed address)
           handler: handleMasterCopyUpdated

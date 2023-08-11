@@ -8,7 +8,7 @@ import {
   TokenDestinationAllowed,
   TokenLockCreatedFromL1,
   LockedTokensReceivedFromL1,
-} from "../types/L2GraphTokenLockManager/L2GraphTokenLockManager";
+} from "../types/GraphTokenLockManager/GraphTokenLockManager";
 
 import { GraphTokenLockWallet } from "../types/templates";
 
