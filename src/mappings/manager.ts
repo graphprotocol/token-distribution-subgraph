@@ -6,6 +6,8 @@ import {
   TokensWithdrawn,
   FunctionCallAuth,
   TokenDestinationAllowed,
+  TokenLockCreatedFromL1,
+  LockedTokensReceivedFromL1,
 } from "../types/GraphTokenLockManager/GraphTokenLockManager";
 
 import { GraphTokenLockWallet } from "../types/templates";
@@ -67,6 +69,9 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   tokenLock.tokensReleased = BigInt.fromI32(0);
   tokenLock.blockNumberCreated = event.block.number;
   tokenLock.txHash = event.transaction.hash;
+  tokenLock.ethBalance = BigInt.fromI32(0);
+  tokenLock.tokensTransferredToL2 = BigInt.fromI32(0);
+  tokenLock.transferredToL2 = false;
   if (event.params.revocable == 0) {
     tokenLock.revocable = "NotSet";
   } else if (event.params.revocable == 1) {
@@ -76,6 +81,41 @@ export function handleTokenLockCreated(event: TokenLockCreated): void {
   }
   tokenLock.save();
   log.warning("[TOKEN LOCK CREATED] entity saved with id: {}", [id]);
+  GraphTokenLockWallet.create(event.params.contractAddress);
+}
+
+export function handleTokenLockCreatedFromL1(event: TokenLockCreatedFromL1): void {
+  // Get manager
+  let manager = TokenManager.load(event.address.toHexString())!;
+  manager.tokenLockCount = manager.tokenLockCount.plus(BigInt.fromI32(1));
+  manager.save();
+
+  // New token lock wallet
+  let id = event.params.contractAddress.toHexString();
+  log.warning("[TOKEN LOCK CREATED] id used: {}", [id]);
+  let tokenLock = new TokenLockWallet(id);
+  tokenLock.manager = event.address;
+  tokenLock.initHash = event.params.initHash;
+  tokenLock.beneficiary = event.params.beneficiary;
+  //tokenLock.token = event.params.token;
+  tokenLock.managedAmount = event.params.managedAmount;
+  tokenLock.startTime = event.params.startTime;
+  tokenLock.endTime = event.params.endTime;
+  tokenLock.periods = BigInt.fromI32(1);
+  tokenLock.releaseStartTime = event.params.endTime;
+  tokenLock.vestingCliffTime = event.params.endTime;
+  tokenLock.tokenDestinationsApproved = false;
+  tokenLock.tokensWithdrawn = BigInt.fromI32(0);
+  tokenLock.tokensRevoked = BigInt.fromI32(0);
+  tokenLock.tokensReleased = BigInt.fromI32(0);
+  tokenLock.blockNumberCreated = event.block.number;
+  tokenLock.txHash = event.transaction.hash;
+  tokenLock.ethBalance = BigInt.fromI32(0);
+  tokenLock.tokensTransferredToL2 = BigInt.fromI32(0);
+  tokenLock.transferredToL2 = false;
+  tokenLock.revocable = "Disabled";
+  tokenLock.save();
+  log.warning("[TOKEN LOCK CREATED FROM L1] entity saved with id: {}", [id]);
   GraphTokenLockWallet.create(event.params.contractAddress);
 }
 

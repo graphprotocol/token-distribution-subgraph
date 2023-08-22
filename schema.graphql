@@ -43,8 +43,8 @@ type TokenLockWallet @entity {
   initHash: Bytes!
   "Address of the beneficiary of locked tokens"
   beneficiary: Bytes!
-  "The token being used (GRT)"
-  token: Bytes!
+  "The token being used (GRT). For L2 wallets created for L1 it will be null"
+  token: Bytes
   "Amount of tokens to be managed by the lock contract"
   managedAmount: BigInt!
   "Start time of the release schedule"
@@ -71,6 +71,30 @@ type TokenLockWallet @entity {
   blockNumberCreated: BigInt!
   "The creation tx hash of the wallet"
   txHash: Bytes!
+  "ETH balance for L2 transfer."
+  ethBalance: BigInt!
+  "Tokens sent to L2"
+  tokensTransferredToL2: BigInt!
+  "Whether the vesting contract has experienced a transfer"
+  transferredToL2: Boolean!
+  "Timestamp for the L1 -> L2 Transfer."
+  firstTransferredToL2At: BigInt
+  "Block number for the L1 -> L2 Transfer."
+  firstTransferredToL2AtBlockNumber: BigInt
+  "Transaction hash for the L1 -> L2 Transfer."
+  firstTransferredToL2AtTx: String
+  "Timestamp for the L1 -> L2 Transfer."
+  lastTransferredToL2At: BigInt
+  "Block number for the L1 -> L2 Transfer."
+  lastTransferredToL2AtBlockNumber: BigInt
+  "Transaction hash for the L1 -> L2 Transfer."
+  lastTransferredToL2AtTx: String
+  "Wallet address set for L2 transfer"
+  l2WalletAddress: Bytes
+  "Beneficiary set for L2 transfer. Only for locked tokens codepath, fully vested won't be setting this"
+  l2Beneficiary: Bytes
+  "Whether the wallet is fully vested or not. Fully vested wallets will have an l2WalletAddress set that is not a TokenLockWallet, but rather a normal EOA, since they can withdraw the funds whenever they please"
+  l2WalletIsTokenLock: Boolean
 }
 
 """

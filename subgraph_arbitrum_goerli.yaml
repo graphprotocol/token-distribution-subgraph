@@ -1,0 +1,101 @@
+specVersion: 0.0.4
+description: The Graph Token Distribution
+repository: https://github.com/graphprotocol/token-distribution
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: GraphTokenLockManager
+    network: arbitrum-goerli
+    source:
+      address: "0xF3b617e0c966329363e78c266361794e84223313"
+      abi: GraphTokenLockManager
+      startBlock: 30437370
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/manager.ts
+      entities:
+        - TODO
+      abis:
+        - name: GraphTokenLockManager
+          file: ./abis/GraphTokenLockManager.json
+      eventHandlers:
+        - event: MasterCopyUpdated(indexed address)
+          handler: handleMasterCopyUpdated
+        - event: TokenLockCreated(indexed address,indexed bytes32,indexed address,address,uint256,uint256,uint256,uint256,uint256,uint256,uint8)
+          handler: handleTokenLockCreated
+        - event: TokensDeposited(indexed address,uint256)
+          handler: handleTokensDeposited
+        - event: TokensWithdrawn(indexed address,uint256)
+          handler: handleTokensWithdrawn
+        - event: FunctionCallAuth(indexed address,indexed bytes4,indexed address,string)
+          handler: handleFunctionCallAuth
+        - event: TokenDestinationAllowed(indexed address,bool)
+          handler: handleTokenDestinationAllowed
+        - event: TokenLockCreatedFromL1(indexed address,bytes32,indexed address,uint256,uint256,uint256,indexed address)
+          handler: handleTokenLockCreatedFromL1
+  # - kind: ethereum/contract
+  #   name: L1GraphTokenLockTransferTool
+  #   network: goerli
+  #   source:
+  #     address: "0xa725CF32c367778CFF2ba7089Ab4e941BDD88612"
+  #     abi: L1GraphTokenLockTransferTool
+  #     startBlock: 9345746
+  #   mapping:
+  #     kind: ethereum/events
+  #     apiVersion: 0.0.6
+  #     language: wasm/assemblyscript
+  #     file: ./src/mappings/transferTool.ts
+  #     entities:
+  #       - TODO
+  #     abis:
+  #       - name: L1GraphTokenLockTransferTool
+  #         file: ./abis/L1GraphTokenLockTransferTool.json
+  #     eventHandlers:
+  #       - event: LockedFundsSentToL2(indexed address,indexed address,indexed address,address,uint256)
+  #         handler: handleLockedFundsSentToL2
+  #       - event: L2WalletAddressSet(indexed address,indexed address)
+  #         handler: handleL2WalletAddressSet
+  #       - event: L2BeneficiarySet(indexed address,indexed address)
+  #         handler: handleL2BeneficiarySet
+  #       - event: ETHDeposited(indexed address,uint256)
+  #         handler: handleETHDeposited
+  #       - event: ETHWithdrawn(indexed address,indexed address,uint256)
+  #         handler: handleETHWithdrawn
+  #       - event: ETHPulled(indexed address,uint256)
+  #         handler: handleETHPulled
+templates:
+  - kind: ethereum/contract
+    name: GraphTokenLockWallet
+    network: arbitrum-goerli
+    source:
+      abi: GraphTokenLockWallet
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      file: ./src/mappings/tokenLockWallet.ts
+      entities:
+        - TokenLockWallet
+      abis:
+        - name: GraphTokenLockWallet
+          file: ./abis/GraphTokenLockWallet.json
+      eventHandlers:
+        - event: TokensReleased(indexed address,uint256)
+          handler: handleTokensReleased
+        - event: TokensWithdrawn(indexed address,uint256)
+          handler: handleTokensWithdrawn
+        - event: TokensRevoked(indexed address,uint256)
+          handler: handleTokensRevoked
+        - event: ManagerUpdated(indexed address,indexed address)
+          handler: handleManagerUpdated
+        - event: ApproveTokenDestinations()
+          handler: handleApproveTokenDestinations
+        - event: RevokeTokenDestinations()
+          handler: handleRevokeTokenDestinations
+        - event: TokenDestinationsApproved()
+          handler: handleTokenDestinationsApproved
+        - event: TokenDestinationsRevoked()
+          handler: handleTokenDestinationsRevoked
