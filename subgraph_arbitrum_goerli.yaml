@@ -38,7 +38,7 @@ dataSources:
           handler: handleTokenLockCreatedFromL1
   - kind: ethereum/contract
     name: GraphTokenLockTransferTool
-    network: arbitrum-one
+    network: arbitrum-goerli
     source:
       address: "0xc1A9C2E76171e64Cd5669B3E89D9A25a6b0FAfB7"
       abi: GraphTokenLockTransferTool
