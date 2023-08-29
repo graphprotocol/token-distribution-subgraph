@@ -185,11 +185,11 @@ dataSources:
         - event: TokenDestinationAllowed(indexed address,bool)
           handler: handleTokenDestinationAllowed
   - kind: ethereum/contract
-    name: L1GraphTokenLockTransferTool
+    name: GraphTokenLockTransferTool
     network: mainnet
     source:
       address: "0xCa82c7Ce3388b0B5d307574099aC57d7a00d509F"
-      abi: L1GraphTokenLockTransferTool
+      abi: GraphTokenLockTransferTool
       startBlock: 17743363
     mapping:
       kind: ethereum/events
@@ -199,8 +199,8 @@ dataSources:
       entities:
         - TODO
       abis:
-        - name: L1GraphTokenLockTransferTool
-          file: ./abis/L1GraphTokenLockTransferTool.json
+        - name: GraphTokenLockTransferTool
+          file: ./abis/GraphTokenLockTransferTool.json
       eventHandlers:
         - event: LockedFundsSentToL2(indexed address,indexed address,indexed address,address,uint256)
           handler: handleLockedFundsSentToL2

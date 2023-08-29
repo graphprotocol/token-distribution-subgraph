@@ -4,8 +4,9 @@ import {
   L2WalletAddressSet,
   ETHDeposited,
   ETHWithdrawn,
-  ETHPulled
-} from "../types/L1GraphTokenLockTransferTool/L1GraphTokenLockTransferTool";
+  ETHPulled,
+  LockedFundsSentToL1
+} from "../types/GraphTokenLockTransferTool/GraphTokenLockTransferTool";
 
 import { TokenLockWallet } from "../types/schema";
 
@@ -62,5 +63,22 @@ export function handleETHPulled(event: ETHPulled): void {
   tokenLockWallet.ethBalance = tokenLockWallet.ethBalance.minus(
     event.params.amount
   );
+  tokenLockWallet.save();
+}
+
+export function handleLockedFundsSentToL1(event: LockedFundsSentToL1): void {
+  let tokenLockWallet = TokenLockWallet.load(event.params.l2Wallet.toHexString())!;
+  tokenLockWallet.tokensTransferredToL1 = tokenLockWallet.tokensTransferredToL1.plus(
+    event.params.amount
+  );
+  if(!tokenLockWallet.transferredToL1) {
+    tokenLockWallet.transferredToL1 = true
+    tokenLockWallet.firstLockedFundsTransferredToL1At = event.block.timestamp
+    tokenLockWallet.firstLockedFundsTransferredToL1AtBlockNumber = event.block.number
+    tokenLockWallet.firstLockedFundsTransferredToL1AtTx = event.transaction.hash.toHexString()
+  }
+  tokenLockWallet.lastLockedFundsTransferredToL1At = event.block.timestamp
+  tokenLockWallet.lastLockedFundsTransferredToL1AtBlockNumber = event.block.number
+  tokenLockWallet.lastLockedFundsTransferredToL1AtTx = event.transaction.hash.toHexString()
   tokenLockWallet.save();
 }
