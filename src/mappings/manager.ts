@@ -117,6 +117,7 @@ export function handleTokenLockCreatedFromL1(event: TokenLockCreatedFromL1): voi
   tokenLock.tokensTransferredToL1 = BigInt.fromI32(0);
   tokenLock.transferredToL2 = false;
   tokenLock.transferredToL1 = false;
+  tokenLock.l1WalletAddress = event.params.l1Address;
   tokenLock.revocable = "Disabled";
   tokenLock.save();
   log.warning("[TOKEN LOCK CREATED FROM L1] entity saved with id: {}", [id]);
