@@ -76,9 +76,11 @@ export function handleLockedFundsSentToL1(event: LockedFundsSentToL1): void {
     tokenLockWallet.firstLockedFundsTransferredToL1At = event.block.timestamp
     tokenLockWallet.firstLockedFundsTransferredToL1AtBlockNumber = event.block.number
     tokenLockWallet.firstLockedFundsTransferredToL1AtTx = event.transaction.hash.toHexString()
+    tokenLockWallet.firstLockedFundsTransferredToL1Amount = event.params.amount;
   }
   tokenLockWallet.lastLockedFundsTransferredToL1At = event.block.timestamp
   tokenLockWallet.lastLockedFundsTransferredToL1AtBlockNumber = event.block.number
   tokenLockWallet.lastLockedFundsTransferredToL1AtTx = event.transaction.hash.toHexString()
+  tokenLockWallet.lastLockedFundsTransferredToL1Amount = event.params.amount;
   tokenLockWallet.save();
 }

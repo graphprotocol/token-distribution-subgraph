@@ -113,6 +113,10 @@ type TokenLockWallet @entity {
   lastLockedFundsTransferredToL1AtBlockNumber: BigInt
   "Transaction hash for the L2 -> L1 Transfer of locked funds."
   lastLockedFundsTransferredToL1AtTx: String
+  "Tokens sent to L1 (First time)"
+  firstLockedFundsTransferredToL1Amount: BigInt!
+  "Tokens sent to L1 (Last time)"
+  lastLockedFundsTransferredToL1Amount: BigInt!
 }
 
 """
