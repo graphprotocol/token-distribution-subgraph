@@ -35,11 +35,11 @@ dataSources:
         - event: TokenDestinationAllowed(indexed address,bool)
           handler: handleTokenDestinationAllowed
   - kind: ethereum/contract
-    name: L1GraphTokenLockTransferTool
+    name: GraphTokenLockTransferTool
     network: goerli
     source:
       address: "0xa725CF32c367778CFF2ba7089Ab4e941BDD88612"
-      abi: L1GraphTokenLockTransferTool
+      abi: GraphTokenLockTransferTool
       startBlock: 9345746
     mapping:
       kind: ethereum/events
@@ -49,8 +49,8 @@ dataSources:
       entities:
         - TODO
       abis:
-        - name: L1GraphTokenLockTransferTool
-          file: ./abis/L1GraphTokenLockTransferTool.json
+        - name: GraphTokenLockTransferTool
+          file: ./abis/GraphTokenLockTransferTool.json
       eventHandlers:
         - event: LockedFundsSentToL2(indexed address,indexed address,indexed address,address,uint256)
           handler: handleLockedFundsSentToL2
